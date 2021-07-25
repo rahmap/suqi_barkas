@@ -43,6 +43,20 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
+
+        'user.auth' => [
+            \App\Http\Middleware\Authenticate::class,
+            \App\Http\Middleware\UserAuthMiddleware::class,
+        ],
+
+        'admin.auth' => [
+            \App\Http\Middleware\AdminAuthMiddleware::class,
+        ],
+
+        'admin.super.auth' => [
+            \App\Http\Middleware\AdminAuthMiddleware::class,
+            \App\Http\Middleware\AdminSuperMiddleware::class,
+        ],
     ];
 
     /**

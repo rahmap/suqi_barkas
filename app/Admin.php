@@ -9,7 +9,6 @@ use Illuminate\Notifications\Notifiable;
 class Admin extends Authenticatable
 {
     use Notifiable;
-    use SoftDeletes;
 
     protected $table = 'admins';
     protected $fillable = [
@@ -18,6 +17,7 @@ class Admin extends Authenticatable
         'password',
         'role'
     ];
+    public $timestamps = false;
     protected $primaryKey = 'id';
     protected $hidden = [
       'password'

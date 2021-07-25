@@ -15,8 +15,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name','email','password','phone','provinsi','kabupaten','is_active','created_at'
+        'nama','email','password','phone','provinsi','kabupaten','is_active','created_at'
     ];
+
+    public $timestamps = ['created_at']; //only want to used created_at column
+    const UPDATED_AT = null; //and updated by default null set
 
     /**
      * The attributes that should be hidden for arrays.
