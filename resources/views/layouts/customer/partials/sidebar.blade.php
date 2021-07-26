@@ -18,11 +18,12 @@
 
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="mdi mdi-account-group"></i>
-                        <span>Pesanan</span>
+                        <i class="mdi mdi-google-pages"></i>
+                        <span>Produk</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{ route('pesanan_list_customer') }}">List Pesanan</a></li>
+                        <li><a href="{{ route('produk.create') }}">Tambah Produk</a></li>
+                        <li><a href="{{ route('produk.index') }}">List Produk</a></li>
                     </ul>
                 </li>
 

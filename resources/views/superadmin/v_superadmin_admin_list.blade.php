@@ -37,49 +37,35 @@
                         <div class="card-body">
 
                             <h4 class="header-title">{{ $title }}</h4>
-                            <p>List produk yang sudah Di Tambahkan Pelanggan</p>
+                            <p>List Admin yang sudah didaftarkan oleh Superadmin</p>
                             <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead class="text-center">
                                 <tr>
                                     <th>ID</th>
                                     <th>Nama</th>
-                                    <th>Harga</th>
-                                    <th>Diskon</th>
-                                    <th>Kategori</th>
+                                    <th>Email</th>
                                     <th>Aksi</th>
                                 </tr>
                                 </thead>
 
-
                                 <tbody class="text-center">
 
-                                @foreach($produks as $pro)
+                                @foreach($admins as $admin)
                                     <tr>
-                                        <td>{{ $pro['id'] }}</td>
-                                        <td>{{ $pro['nama'] }}</td>
-                                        <td>{{ 'Rp '.formatRupiah($pro['harga']) }}</td>
-                                        <td>{{ $pro['diskon'] }} %</td>
-                                        <td>{!! isset($pro['kategoris']['nama'])? $pro['kategoris']['nama'] : '<span class="text-danger">Kategori Sudah Dihapus</span>' !!}</td>
+                                        <td>{{ $admin['id'] }}</td>
+                                        <td>{{ $admin['nama'] }}</td>
+                                        <td>{{ $admin['email'] }}</td>
                                         <td>
                                             <div class="btn-group mt-1 mr-1 dropright" style="z-index: 999999;">
                                                 <button type="button" class="btn btn-secondary waves-effect waves-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="mdi mdi-chevron-down"></i> Pilihan
                                                 </button>
                                                 <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="{{ route('produk.show',['produk' => $pro['id']]) }}">Detail Produk</a>
+                                                    <a class="dropdown-item" href="{{ route('admin.edit',['admin' => $admin['id']]) }}">Update Admin</a>
                                                     <div class="dropdown-divider"></div>
-                                                    @if($pro['is_active'])
-                                                        <a class="dropdown-item btn_nonaktifkan" data-nama="<?= $pro['nama'] ?>"
-                                                           href="{{ route('produk.aktifNonaktif', ['produk' => $pro['id'], 'status' => 0]) }}">
-                                                            Nonaktifkan Kategori</a>
-                                                    @else
-                                                        <a class="dropdown-item btn_aktifkan" data-nama="<?= $pro['nama'] ?>"
-                                                           href="{{ route('produk.aktifNonaktif', ['produk' => $pro['id'], 'status' => 1]) }}">
-                                                            Aktifkan Kategori</a>
-                                                    @endif
-                                                    <a class="dropdown-item btn_delete" data-nama="<?= $pro['nama'] ?>"
-                                                       data-href="{{ route('produk.destroy', ['produk' => $pro['id']]) }}"
-                                                       href="javascript:0;">Hapus Produk</a>
+                                                    <a class="dropdown-item btn_delete" data-nama="<?= $admin['nama'] ?>"
+                                                       data-href="{{ route('admin.destroy', ['admin' => $admin['id']]) }}"
+                                                       href="javascript:0;">Hapus Admin</a>
                                                 </div>
                                             </div>
                                         </td>
@@ -122,7 +108,7 @@
                 e.preventDefault();
                 Swal.fire({
                     title: 'Anda Yakin?',
-                    text: 'Hapus Produk ' + nama + ' ?',
+                    text: 'Hapus Admin ' + nama + ' ?',
                     icon: 'question',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -138,7 +124,7 @@
                             showCancelButton: true,
                             confirmButtonColor: '#3085d6',
                             cancelButtonColor: '#d33',
-                            confirmButtonText: 'Ya, hapus produk!',
+                            confirmButtonText: 'Ya, hapus admin!',
                             cancelButtonText: 'Batal'
                         }).then((result) => {
                             if (result.isConfirmed) {

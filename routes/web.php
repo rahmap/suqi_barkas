@@ -44,26 +44,17 @@ Route::get('/customer', 'CustomerController@index')->name('customer_index');
 Route::prefix('/customer')->middleware(['user.auth'])->group(function () {
     Route::get('/profile/update', 'CustomerController@updateProfile')->name('update_profile_customer');
     Route::put('/profile/update', 'CustomerController@updateProfilePost')->name('update_profile_post_customer');
-
-    Route::get('/pesanan/list', 'CustomerController@list')->name('pesanan_list_customer');
-    Route::get('/pesanan/detail/{order}', 'CustomerController@detail')->name('pesanan_detail_customer');
-    Route::put('/pesanan/detail/{order}', 'CustomerController@detailPost')->name('pesanan_detail_post_customer');
-
-    Route::put('/pesanan/hapus-bukti-pembayaran/{order}', 'CustomerController@hapusBuktiPembayaran')->name('hapus_bukti_pembayaran');
-    Route::put('/pesanan/batalkan-pesanan/{order}', 'CustomerController@batalkanPesanan')->name('batalkan_pesanan');
+    Route::resource('/produk', 'ProdukController');
 });
 
 //Admin
 Route::prefix('/admin')->middleware(['admin.auth'])->group(function () {
     Route::get('/', 'AdminController@index')->name('admin_index');
     Route::resource('/kategori', 'KategoriController');
-    Route::resource('/produk', 'ProdukController');
+    Route::get('/kategori/{kategori}/{status}', 'KategoriController@aktifNonatif')->name('kategori.aktifNonaktif');
+    Route::get('/produk/{produk}/{status}', 'ProdukController@aktifNonatif')->name('produk.aktifNonaktif');
     Route::resource('/user', 'UserController');
     Route::resource('/admin', 'SuperAdminController')->middleware('admin.super.auth');
-
-    Route::get('/pesanan/list', 'OrderController@list')->name('pesanan_list');
-    Route::get('/pesanan/detail/{order}', 'OrderController@detail')->name('pesanan_detail');
-    Route::put('/pesanan/detail/{order}', 'OrderController@detailPost')->name('pesanan_detail_post');
 
     Route::get('/profile/update', 'AdminController@updateProfile')->name('update_profile');
     Route::put('/profile/update', 'AdminController@updateProfilePost')->name('update_profile_post');

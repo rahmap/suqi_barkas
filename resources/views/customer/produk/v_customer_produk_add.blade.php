@@ -1,4 +1,4 @@
-@extends('layouts.admin.v_main_admin')
+@extends('layouts.customer.v_main_customer')
 
 @section('title', $title)
 
@@ -32,28 +32,27 @@
                             <h4 class="header-title">Menambahkan Produk</h4>
                             <p class="card-title-desc">Nantinya data produk akan dibeli calon Pembeli</p>
 
-                            <form class="needs-validation" enctype="multipart/form-data" action="<?= route('produk.update', ['produk' => $produk['id']]) ?>" method="post">
+                            <form class="needs-validation" enctype="multipart/form-data" action="<?= route('produk.store') ?>" method="post">
                                 @csrf
-                                @method('put')
                                 <div class="row">
                                     <div class="col-md-4 mb-4">
                                         <label for="nama">Nama Produk</label>
                                         <input type="text" id="nama" class="form-control @error('nama') is-invalid @enderror"
-                                               name="nama" minlength="3" maxlength="100" placeholder="Meja belajar.." value="{{ old('nama', $produk['nama']) }}" required>
-                                        @error('nama')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
+                                               name="nama" minlength="3" maxlength="100" placeholder="Meja belajar.." value="{{ old('nama') }}" required>
+                                            @error('nama')
+                                            <div class="invalid-feedback">
+                                              {{ $message }}
+                                            </div>
                                         @enderror
                                     </div>
                                     <div class="col-md-4 mb-4">
                                         <label for="harga">Harga Produk</label>
                                         <input type="number" id="harga" class="form-control @error('harga') is-invalid @enderror"
-                                               name="harga" min="1000" max="99999999" placeholder="1000000" value="{{ old('harga', $produk['harga']) }}" required>
-                                        @error('harga')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
+                                               name="harga" min="1000" max="99999999" placeholder="1000000" value="{{ old('harga', 1000) }}" required>
+                                            @error('harga')
+                                            <div class="invalid-feedback">
+                                              {{ $message }}
+                                            </div>
                                         @enderror
                                     </div>
                                     <div class="col-md-4 mb-4">
@@ -61,13 +60,13 @@
                                         <select class="custom-select" name="kategori_id" required>
                                             <option selected="" value="">- Pilih -</option>
                                             @foreach($kategoris as $kat)
-                                                <option value="{{ $kat['id'] }}" @if(old('kategori_id') == $kat['id'] OR $kat['id'] == $produk['kategori_id']) selected @endif>{{ $kat['nama'] }}</option>
+                                            <option value="{{ $kat['id'] }}">{{ $kat['nama'] }}</option>
                                             @endforeach
                                         </select>
-                                        @error('nama')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
+                                            @error('nama')
+                                            <div class="invalid-feedback">
+                                              {{ $message }}
+                                            </div>
                                         @enderror
                                     </div>
                                 </div>
@@ -75,7 +74,7 @@
                                     <div class="col-md-4 mb-4">
                                         <label for="diskon">Diskon Produk <small>(%)</small></label>
                                         <input type="number" id="diskon" class="form-control @error('diskon') is-invalid @enderror"
-                                               name="diskon" min="0" max="100" placeholder="0" value="{{ old('diskon', $produk['diskon']) }}" required>
+                                               name="diskon" min="0" max="100" placeholder="0" value="{{ old('diskon', 0) }}" required>
                                         @error('diskon')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -85,7 +84,7 @@
                                     <div class="col-md-4 mb-4">
                                         <label for="gambar">Gambar Produk</label>
                                         <input type="file" id="gambar" class="form-control @error('gambar') is-invalid @enderror"
-                                               name="gambar">
+                                               name="gambar" required>
                                         @error('gambar')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -95,7 +94,7 @@
                                     <div class="col-md-4 mb-4">
                                         <label for="gambar_tambahan">Gambar Tambahan</label>
                                         <input type="file" id="gambar_tambahan" class="form-control @error('gambar_tambahan') is-invalid @enderror"
-                                               name="gambar_tambahan">
+                                               name="gambar_tambahan" required>
                                         @error('gambar_tambahan')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -107,7 +106,7 @@
                                     <div class="col-md-4 mb-4">
                                         <label for="stok">Stok Produk</label>
                                         <input type="number" id="stok" class="form-control @error('stok') is-invalid @enderror"
-                                               name="stok" min="0" max="999999" placeholder="100" value="{{ old('stok', $produk['stok']) }}"  required>
+                                               name="stok" min="0" max="999999" placeholder="100" value="{{ old('stok', 10) }}"  required>
                                         @error('stok')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -117,7 +116,7 @@
                                     <div class="col-md-4 mb-4">
                                         <label for="keterangan">Keterangan Produk</label>
                                         <textarea type="text" id="keterangan" class="form-control @error('keterangan') is-invalid @enderror"
-                                                  name="keterangan" minlength="10" maxlength="200" placeholder="Meja ini terbuat dari bahan berkualitas tinggi dan.." required>{{ old('keterangan', $produk['keterangan']) }}</textarea>
+                                                  name="keterangan" minlength="10" maxlength="200" placeholder="Meja ini terbuat dari bahan berkualitas tinggi dan.." required>{{ old('keterangan') }}</textarea>
                                         @error('keterangan')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -127,7 +126,7 @@
                                     <div class="col-md-4 mb-4">
                                         <label for="berat">Berat Produk <small>(gram)</small></label>
                                         <input type="number" id="berat" class="form-control @error('berat') is-invalid @enderror"
-                                               name="berat" min="0" max="30000" placeholder="200" value="{{ old('berat', $produk['berat']) }}" required>
+                                               name="berat" min="0" max="30000" placeholder="200" value="{{ old('berat', 0) }}" required>
                                         @error('berat')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -138,7 +137,7 @@
                                 <div class="container mt-3">
                                     <div class="row">
                                         <div class="col text-center">
-                                            <button class="btn btn-primary" type="submit">Update Produk</button>
+                                            <button class="btn btn-primary" type="submit">Tambahkan Produk</button>
                                         </div>
                                     </div>
                                 </div>
@@ -166,13 +165,13 @@
                 maxHeight:900,
                 focus:!1,
                 toolbar: [
-                    ['style', ['bold', 'italic', 'underline', 'clear']],
-                    ['fontsize', ['fontsize']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['height', ['height']],
-                    ['view', ['help']]
-                ]
+        						['style', ['bold', 'italic', 'underline', 'clear']],
+        						['fontsize', ['fontsize']],
+        						['color', ['color']],
+        						['para', ['ul', 'ol', 'paragraph']],
+        						['height', ['height']],
+        						['view', ['help']]
+        				]
 
             }
 

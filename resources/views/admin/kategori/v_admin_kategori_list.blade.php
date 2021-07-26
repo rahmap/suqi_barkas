@@ -47,6 +47,7 @@
                                     <th>ID</th>
                                     <th>Nama</th>
                                     <th>Slug</th>
+                                    <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
                                 </thead>
@@ -59,6 +60,7 @@
                                         <td>{{ $kat['id'] }}</td>
                                         <td>{{ $kat['nama'] }}</td>
                                         <td>{{ $kat['slug'] }}</td>
+                                        <td>{{ $kat['is_active'] }}</td>
                                         <td>
                                             <div class="btn-group mt-1 mr-1 dropright" style="z-index: 999999;">
                                                 <button type="button" class="btn btn-secondary waves-effect waves-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -67,6 +69,15 @@
                                                 <div class="dropdown-menu">
                                                     <a class="dropdown-item" href="{{ route('kategori.edit',['kategori' => $kat['id']]) }}">Update Produk</a>
                                                     <div class="dropdown-divider"></div>
+                                                    @if($kat['is_active'])
+                                                        <a class="dropdown-item btn_nonaktifkan" data-nama="<?= $kat['nama'] ?>"
+                                                           href="{{ route('kategori.aktifNonaktif', ['kategori' => $kat['id'], 'status' => 0]) }}">
+                                                            Nonaktifkan Kategori</a>
+                                                    @else
+                                                        <a class="dropdown-item btn_aktifkan" data-nama="<?= $kat['nama'] ?>"
+                                                           href="{{ route('kategori.aktifNonaktif', ['kategori' => $kat['id'], 'status' => 1]) }}">
+                                                            Aktifkan Kategori</a>
+                                                    @endif
                                                     <a class="dropdown-item btn_delete" data-nama="<?= $kat['nama'] ?>"
                                                        data-href="{{ route('kategori.destroy', ['kategori' => $kat['id']]) }}"
                                                        href="javascript:0;">Hapus Kategori</a>

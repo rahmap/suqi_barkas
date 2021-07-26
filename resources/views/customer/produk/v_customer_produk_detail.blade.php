@@ -1,4 +1,4 @@
-@extends('layouts.admin.v_main_admin')
+@extends('layouts.customer.v_main_customer')
 
 @section('title', $title)
 
@@ -36,8 +36,6 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <h4 class="header-title">{{ $title }}</h4>
-                            <p>List produk yang sudah Di Tambahkan Pelanggan</p>
                             <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead class="text-center">
                                 <tr>
@@ -45,6 +43,7 @@
                                     <th>Nama</th>
                                     <th>Harga</th>
                                     <th>Diskon</th>
+                                    <th>Stok</th>
                                     <th>Kategori</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -52,48 +51,79 @@
 
 
                                 <tbody class="text-center">
-
-                                @foreach($produks as $pro)
                                     <tr>
-                                        <td>{{ $pro['id'] }}</td>
-                                        <td>{{ $pro['nama'] }}</td>
-                                        <td>{{ 'Rp '.formatRupiah($pro['harga']) }}</td>
-                                        <td>{{ $pro['diskon'] }} %</td>
-                                        <td>{!! isset($pro['kategoris']['nama'])? $pro['kategoris']['nama'] : '<span class="text-danger">Kategori Sudah Dihapus</span>' !!}</td>
+                                        <td>{{ $produk['id'] }}</td>
+                                        <td>{{ $produk['nama'] }}</td>
+                                        <td>{{ 'Rp '.formatRupiah($produk['harga']) }}</td>
+                                        <td>{{ $produk['diskon'] }} %</td>
+                                        <td>{{ $produk['stok'] }}</td>
+                                        <td>{{ $produk['kategoris']['nama'] }}</td>
                                         <td>
                                             <div class="btn-group mt-1 mr-1 dropright" style="z-index: 999999;">
                                                 <button type="button" class="btn btn-secondary waves-effect waves-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="mdi mdi-chevron-down"></i> Pilihan
                                                 </button>
                                                 <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="{{ route('produk.show',['produk' => $pro['id']]) }}">Detail Produk</a>
+                                                    <a class="dropdown-item" href="{{ route('produk.show',['produk' => $produk['id']]) }}">Detail Produk</a>
+                                                    <a class="dropdown-item" href="{{ route('produk.edit',['produk' => $produk['id']]) }}">Update Produk</a>
                                                     <div class="dropdown-divider"></div>
-                                                    @if($pro['is_active'])
-                                                        <a class="dropdown-item btn_nonaktifkan" data-nama="<?= $pro['nama'] ?>"
-                                                           href="{{ route('produk.aktifNonaktif', ['produk' => $pro['id'], 'status' => 0]) }}">
-                                                            Nonaktifkan Kategori</a>
-                                                    @else
-                                                        <a class="dropdown-item btn_aktifkan" data-nama="<?= $pro['nama'] ?>"
-                                                           href="{{ route('produk.aktifNonaktif', ['produk' => $pro['id'], 'status' => 1]) }}">
-                                                            Aktifkan Kategori</a>
-                                                    @endif
-                                                    <a class="dropdown-item btn_delete" data-nama="<?= $pro['nama'] ?>"
-                                                       data-href="{{ route('produk.destroy', ['produk' => $pro['id']]) }}"
+                                                    <a class="dropdown-item btn_delete" data-nama="<?= $produk['nama'] ?>"
+                                                       data-href="{{ route('produk.destroy', ['produk' => $produk['id']]) }}"
                                                        href="javascript:0;">Hapus Produk</a>
                                                 </div>
                                             </div>
                                         </td>
                                     </tr>
-                                @endforeach
                                 </tbody>
                             </table>
 
                         </div>
                     </div>
                 </div> <!-- end col -->
-            </div> <!-- end row -->
+            </div>
             <!-- end row -->
+            <div class="row">
+                <div class="col-5">
+                    <div class="card">
 
+                        <div class="card-body">
+                        <h4 class="header-title">Keterangan</h4>
+                            <hr>
+                            {!! $produk['keterangan'] !!}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-7">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <table id="datatable1" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead class="text-center">
+                                <tr>
+                                    <th>Berat (Gram)</th>
+                                    <th>Dibuat</th>
+                                    <th>Diupdate</th>
+                                    <th>Gambar</th>
+                                    <th>Gambar Tambahan</th>
+                                </tr>
+                                </thead>
+
+
+                                <tbody class="text-center">
+                                <tr>
+                                    <td>{{ $produk['berat'] }}</td>
+                                    <td>{{ $produk['created_at'] }}</td>
+                                    <td>{{ $produk['updated_at'] }}</td>
+                                    <td><a target="_blank" href="{{ asset('storage/product/'.$produk->gambar) }}">Lihat</a></td>
+                                    <td><a target="_blank" href="{{ asset('storage/product/'.$produk->gambar_tambahan) }}">Lihat</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div> <!-- end col -->
+            </div>
             <!-- end row -->
 
         </div> <!-- container-fluid -->
@@ -116,6 +146,7 @@
     <script>
         $(document).ready(function (){
             let table = $('#datatable').DataTable()
+            let table1 = $('#datatable1').DataTable()
             let nama = '';
             table.on('click', '.btn_delete', function (e){
                 nama = $(this).data('nama')

@@ -89,4 +89,13 @@ class KategoriController extends Controller
             ->with('message',
                 sweetAlert('Success', 'Berhasil menghapus Kategori.','success'));
     }
+
+    public function aktifNonatif(Kategori $kategori, $status)
+    {
+        $kategori->is_active = $status;
+        $kategori->save();
+        return redirect()->back()
+            ->with('message',
+                sweetAlert('Success', 'Berhasil mengupdate Status Kategori.','success'));
+    }
 }

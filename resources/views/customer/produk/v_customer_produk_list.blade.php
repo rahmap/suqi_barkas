@@ -1,4 +1,4 @@
-@extends('layouts.admin.v_main_admin')
+@extends('layouts.customer.v_main_customer')
 
 @section('title', $title)
 
@@ -35,19 +35,21 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
+                            <a href="{{ route('produk.create') }}">
+                                <button class="btn btn-info float-right">Tambahkan Produk</button>
+                            </a>
 
                             <h4 class="header-title">{{ $title }}</h4>
-                            <p>List Pesanan yang sudah dilakukan Pelanggan</p>
+                            <p>List produk yang sudah anda Tambahkan</p>
                             <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead class="text-center">
                                 <tr>
                                     <th>ID</th>
-                                    <th>Nama Penerima</th>
-                                    <th>Nomor HP</th>
-                                    <th>Bukti Pembayaran</th>
-                                    <th>Status Pemesanan</th>
-                                    <th>Total Harga</th>
-                                    <th>Dipesan Pada</th>
+                                    <th>Nama</th>
+                                    <th>Harga</th>
+                                    <th>Diskon</th>
+                                    <th>Stok</th>
+                                    <th>Kategori</th>
                                     <th>Aksi</th>
                                 </tr>
                                 </thead>
@@ -55,32 +57,26 @@
 
                                 <tbody class="text-center">
 
-                                @foreach($orders as $order)
+                                @foreach($produks as $pro)
                                     <tr>
-                                        <td>{{ $order['id'] }}</td>
-                                        <td>{{ $order['nama_penerima'] }}</td>
-                                        <td>{{ $order['phone_penerima'] }}</td>
-                                        <td>{!! !empty($order['bukti_pembayaran'])? '<a target="_blank" href="'.asset('storage/bukti/'.$order['bukti_pembayaran']).'">lihat</a>' : '<span class="badge badge-secondary">Belum Ada</span>' !!}</td>
-                                        <td>
-                                            @if($order['status_pemesanan'] == 'pending')
-                                                <span class="badge badge-warning">Pending</span>
-                                            @elseif($order['status_pemesanan'] == 'success')
-                                                <span class="badge badge-success">Success</span>
-                                            @elseif($order['status_pemesanan'] == 'cancel')
-                                                <span class="badge badge-danger">Cancel</span>
-                                            @else
-                                                <span class="badge badge-info">Delivery</span>
-                                            @endif
-                                        </td>
-                                        <td>Rp {{ formatRupiah($order['ongkir'] + $order['total_harga_barang']) }}</td>
-                                        <td>{{ substr(str_replace('T',' ',$order['created_at']),0,16) }}</td>
+                                        <td>{{ $pro['id'] }}</td>
+                                        <td>{{ $pro['nama'] }}</td>
+                                        <td>{{ 'Rp '.formatRupiah($pro['harga']) }}</td>
+                                        <td>{{ $pro['diskon'] }} %</td>
+                                        <td>{{ $pro['stok'] }}</td>
+                                        <td>{!! isset($pro['kategoris']['nama'])? $pro['kategoris']['nama'] : '<span class="text-danger">Kategori Sudah Dihapus</span>' !!}</td>
                                         <td>
                                             <div class="btn-group mt-1 mr-1 dropright" style="z-index: 999999;">
                                                 <button type="button" class="btn btn-secondary waves-effect waves-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="mdi mdi-chevron-down"></i> Pilihan
                                                 </button>
                                                 <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="{{ route('pesanan_detail',['order' => $order['id']]) }}">Detail Pesanan</a>
+                                                    <a class="dropdown-item" href="{{ route('produk.show',['produk' => $pro['id']]) }}">Detail Produk</a>
+                                                    <a class="dropdown-item" href="{{ route('produk.edit',['produk' => $pro['id']]) }}">Update Produk</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item btn_delete" data-nama="<?= $pro['nama'] ?>"
+                                                       data-href="{{ route('produk.destroy', ['produk' => $pro['id']]) }}"
+                                                       href="javascript:0;">Hapus Produk</a>
                                                 </div>
                                             </div>
                                         </td>
@@ -116,9 +112,7 @@
 
     <script>
         $(document).ready(function (){
-            let table = $('#datatable').DataTable({
-                "order": [[ 0, "desc" ]]
-            })
+            let table = $('#datatable').DataTable()
             let nama = '';
             table.on('click', '.btn_delete', function (e){
                 nama = $(this).data('nama')
