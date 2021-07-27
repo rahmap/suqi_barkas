@@ -15,17 +15,27 @@ class ProdukController extends Controller
     {
         $data = [
             'title' => 'List Produk',
-            'produks' => Product::with('kategoris')->where('deleted_at', NULL)->get()
+            'produks' => Product::with('kategoris')->get()
         ];
 //        dd($data);
         return view('customer.produk.v_customer_produk_list', $data);
+    }
+
+    public function listProductAdmin()
+    {
+        $data = [
+            'title' => 'List Produk',
+            'produks' => Product::with('kategoris')->withTrashed()->get()
+        ];
+
+        return view('admin.produk.v_admin_produk_list', $data);
     }
 
     public function create()
     {
         $data = [
             'title' => 'Tambahkan Product',
-            'kategoris' => Kategori::all()
+            'kategoris' => Kategori::where('is_active', 1)->get()
         ];
 
         return view('customer.produk.v_customer_produk_add', $data);
@@ -47,7 +57,7 @@ class ProdukController extends Controller
         Product::create($req);
         return redirect()->route('produk.create')
             ->with('message',
-                sweetAlert('Success', 'Berhasil menambahkan Product.','success'));
+                sweetAlert('Success', 'Berhasil menambahkan Produk.','success'));
     }
 
 
@@ -62,12 +72,22 @@ class ProdukController extends Controller
         return view('customer.produk.v_customer_produk_detail', $data);
     }
 
+    public function showAdmin($produk)
+    {
+        $data = [
+            'title' => 'Detail Product',
+            'produk' => Product::with('kategoris')->withTrashed()->findOrFail($produk)
+        ];
+
+        return view('admin.produk.v_admin_produk_detail', $data);
+    }
+
 
     public function edit($id)
     {
         $data = [
             'title' => 'Update Product',
-            'kategoris' => Kategori::all(),
+            'kategoris' => Kategori::where('is_active', 1)->get(),
             'produk' => Product::findOrFail($id)
         ];
 
@@ -117,7 +137,7 @@ class ProdukController extends Controller
         $produk->fill($req)->save();
         return redirect()->route('produk.edit', ['produk' => $produk->id])
             ->with('message',
-                sweetAlert('Success', 'Berhasil mengupdate Product.','success'));
+                sweetAlert('Success', 'Berhasil mengupdate Produk.','success'));
     }
 
     public function destroy(Product $produk)
@@ -125,6 +145,34 @@ class ProdukController extends Controller
         $produk->delete();
         return redirect()->route('produk.index')
             ->with('message',
-                sweetAlert('Success', 'Berhasil menghapus Product.','success'));
+                sweetAlert('Success', 'Berhasil menghapus Produk.','success'));
+    }
+
+    public function aktifNonaktifCustomer(Product $product, $status)
+    {
+        $product->is_active = $status;
+        $product->save();
+        return redirect()->back()
+            ->with('message',
+                sweetAlert('Success', 'Berhasil mengupdate Status Produk.','success'));
+    }
+
+    public function aktifNonaktifAdmin($product, $status)
+    {
+        $pro = Product::findOrFail($product);
+        $pro->is_active = $status;
+        $pro->save();
+        return redirect()->back()
+            ->with('message',
+                sweetAlert('Success', 'Berhasil mengupdate Status Produk.','success'));
+    }
+
+    public function destroyAdmin($produk)
+    {
+        $pro = Product::findOrFail($produk);
+        $pro->delete();
+        return redirect()->back()
+            ->with('message',
+                sweetAlert('Success', 'Berhasil menghapus Produk.','success'));
     }
 }

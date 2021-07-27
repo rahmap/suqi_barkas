@@ -33,7 +33,7 @@
                         <span>Produk</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{ route('produk.index') }}">List Produk</a></li>
+                        <li><a href="{{ route('admin.produk.list') }}">List Produk</a></li>
                     </ul>
                 </li>
                 <li>

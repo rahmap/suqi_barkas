@@ -48,8 +48,8 @@
                                     <th>Nama</th>
                                     <th>Harga</th>
                                     <th>Diskon</th>
-                                    <th>Stok</th>
                                     <th>Kategori</th>
+                                    <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
                                 </thead>
@@ -63,8 +63,16 @@
                                         <td>{{ $pro['nama'] }}</td>
                                         <td>{{ 'Rp '.formatRupiah($pro['harga']) }}</td>
                                         <td>{{ $pro['diskon'] }} %</td>
-                                        <td>{{ $pro['stok'] }}</td>
                                         <td>{!! isset($pro['kategoris']['nama'])? $pro['kategoris']['nama'] : '<span class="text-danger">Kategori Sudah Dihapus</span>' !!}</td>
+                                        <td>
+                                            @if($pro['is_active'] == 0)
+                                                <span class="badge badge-secondary">Tidak Aktif</span>
+                                            @elseif($pro['is_active'] == 1)
+                                                <span class="badge badge-success">Aktif</span>
+                                            @else
+                                                <span class="badge badge-warning">Menunggu Persetujuan</span>
+                                            @endif
+                                        </td>
                                         <td>
                                             <div class="btn-group mt-1 mr-1 dropright" style="z-index: 999999;">
                                                 <button type="button" class="btn btn-secondary waves-effect waves-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -74,6 +82,17 @@
                                                     <a class="dropdown-item" href="{{ route('produk.show',['produk' => $pro['id']]) }}">Detail Produk</a>
                                                     <a class="dropdown-item" href="{{ route('produk.edit',['produk' => $pro['id']]) }}">Update Produk</a>
                                                     <div class="dropdown-divider"></div>
+                                                    @if($pro['is_active'] != 2)
+                                                        @if($pro['is_active'])
+                                                            <a class="dropdown-item btn_nonaktifkan" data-nama="<?= $pro['nama'] ?>"
+                                                               href="{{ route('produk.aktifNonaktifCustomer', ['product' => $pro['id'], 'status' => 0]) }}">
+                                                                Nonaktifkan Produk</a>
+                                                        @else
+                                                            <a class="dropdown-item btn_aktifkan" data-nama="<?= $pro['nama'] ?>"
+                                                               href="{{ route('produk.aktifNonaktifCustomer', ['product' => $pro['id'], 'status' => 1]) }}">
+                                                                Aktifkan Produk</a>
+                                                        @endif
+                                                    @endif
                                                     <a class="dropdown-item btn_delete" data-nama="<?= $pro['nama'] ?>"
                                                        data-href="{{ route('produk.destroy', ['produk' => $pro['id']]) }}"
                                                        href="javascript:0;">Hapus Produk</a>

@@ -104,30 +104,10 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4 mb-4">
-                                        <label for="stok">Stok Produk</label>
-                                        <input type="number" id="stok" class="form-control @error('stok') is-invalid @enderror"
-                                               name="stok" min="0" max="999999" placeholder="100" value="{{ old('stok', 10) }}"  required>
-                                        @error('stok')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror
-                                    </div>
-                                    <div class="col-md-4 mb-4">
                                         <label for="keterangan">Keterangan Produk</label>
                                         <textarea type="text" id="keterangan" class="form-control @error('keterangan') is-invalid @enderror"
                                                   name="keterangan" minlength="10" maxlength="200" placeholder="Meja ini terbuat dari bahan berkualitas tinggi dan.." required>{{ old('keterangan') }}</textarea>
                                         @error('keterangan')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror
-                                    </div>
-                                    <div class="col-md-4 mb-4">
-                                        <label for="berat">Berat Produk <small>(gram)</small></label>
-                                        <input type="number" id="berat" class="form-control @error('berat') is-invalid @enderror"
-                                               name="berat" min="0" max="30000" placeholder="200" value="{{ old('berat', 0) }}" required>
-                                        @error('berat')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>

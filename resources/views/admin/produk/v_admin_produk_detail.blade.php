@@ -43,8 +43,9 @@
                                     <th>Nama</th>
                                     <th>Harga</th>
                                     <th>Diskon</th>
-                                    <th>Stok</th>
                                     <th>Kategori</th>
+                                    <th>Status</th>
+                                    <th>Soft Delete</th>
                                     <th>Aksi</th>
                                 </tr>
                                 </thead>
@@ -56,22 +57,45 @@
                                         <td>{{ $produk['nama'] }}</td>
                                         <td>{{ 'Rp '.formatRupiah($produk['harga']) }}</td>
                                         <td>{{ $produk['diskon'] }} %</td>
-                                        <td>{{ $produk['stok'] }}</td>
-                                        <td>{{ $produk['kategoris']['nama'] }}</td>
+                                        <td>{!! $produk['kategoris']['nama'] !!}</td>
                                         <td>
-                                            <div class="btn-group mt-1 mr-1 dropright" style="z-index: 999999;">
-                                                <button type="button" class="btn btn-secondary waves-effect waves-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="mdi mdi-chevron-down"></i> Pilihan
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="{{ route('produk.show',['produk' => $produk['id']]) }}">Detail Produk</a>
-                                                    <a class="dropdown-item" href="{{ route('produk.edit',['produk' => $produk['id']]) }}">Update Produk</a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item btn_delete" data-nama="<?= $produk['nama'] ?>"
-                                                       data-href="{{ route('produk.destroy', ['produk' => $produk['id']]) }}"
-                                                       href="javascript:0;">Hapus Produk</a>
+                                            @if($produk['is_active'] == 0)
+                                                <span class="badge badge-secondary">Tidak Aktif</span>
+                                            @elseif($produk['is_active'] == 1)
+                                                <span class="badge badge-success">Aktif</span>
+                                            @else
+                                                <span class="badge badge-warning">Menunggu Persetujuan</span>
+                                            @endif
+                                        </td>
+                                           <td>{!! !empty($pro['deleted_at'])? '<span class="badge badge-soft-danger">Dihapus</span>' : '<span class="badge badge-soft-secondary">Tidak</span>' !!}</td>
+                                        <td>
+                                            @if(empty($produk['deleted_at']))
+                                                <div class="btn-group mt-1 mr-1 dropright" style="z-index: 999999;">
+                                                    <button type="button" class="btn btn-secondary waves-effect waves-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="mdi mdi-chevron-down"></i> Pilihan
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        @if($produk['is_active'] == 1)
+                                                            <a class="dropdown-item btn_nonaktifkan" data-nama="<?= $produk['nama'] ?>"
+                                                               href="{{ route('produk.aktifNonaktifAdmin', ['product' => $produk['id'], 'status' => 2]) }}">
+                                                                Nonaktifkan Produk</a>
+                                                        @elseif($produk['is_active'] == 0)
+                                                            <a class="dropdown-item btn_aktifkan" data-nama="<?= $produk['nama'] ?>"
+                                                               href="{{ route('produk.aktifNonaktifAdmin', ['product' => $produk['id'], 'status' => 1]) }}">
+                                                                Aktifkan Produk</a>
+                                                        @else
+                                                            <a class="dropdown-item btn_aktifkan" data-nama="<?= $produk['nama'] ?>"
+                                                               href="{{ route('produk.aktifNonaktifAdmin', ['product' => $produk['id'], 'status' => 1]) }}">
+                                                                Setujui Produk</a>
+                                                        @endif
+                                                        <a class="dropdown-item btn_delete" data-nama="<?= $produk['nama'] ?>"
+                                                           data-href="{{ route('produk.destroyAdmin', ['product' => $produk['id']]) }}"
+                                                           href="javascript:0;">Hapus Produk</a>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            @else
+                                                -
+                                            @endif
                                         </td>
                                     </tr>
                                 </tbody>
@@ -100,7 +124,6 @@
                             <table id="datatable1" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead class="text-center">
                                 <tr>
-                                    <th>Berat (Gram)</th>
                                     <th>Dibuat</th>
                                     <th>Diupdate</th>
                                     <th>Gambar</th>
@@ -111,7 +134,6 @@
 
                                 <tbody class="text-center">
                                 <tr>
-                                    <td>{{ $produk['berat'] }}</td>
                                     <td>{{ $produk['created_at'] }}</td>
                                     <td>{{ $produk['updated_at'] }}</td>
                                     <td><a target="_blank" href="{{ asset('storage/product/'.$produk->gambar) }}">Lihat</a></td>

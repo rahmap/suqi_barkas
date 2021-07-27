@@ -20,6 +20,8 @@ Route::get('/tentang', 'HomeController@tentang')->name('about');
 Route::get('/kontak', 'HomeController@kontak')->name('contact');
 Route::get('/syarat-dan-ketentuan', 'HomeController@faq')->name('faq');
 Route::get('/get-kabupaten/{provinsi}', 'AuthController@getKabupatenByIdProv')->name('getKabupatenByIdProv');
+Route::get('/produk/{produk}', 'HomeController@produk_page')->name('produk_page');
+
 Route::middleware(['guest:customer'])->group(function () {
     Route::get('/auth', 'AuthController@index')->name('auth');
     Route::post('/auth/register', 'AuthController@register')->name('auth_register');
@@ -45,6 +47,7 @@ Route::prefix('/customer')->middleware(['user.auth'])->group(function () {
     Route::get('/profile/update', 'CustomerController@updateProfile')->name('update_profile_customer');
     Route::put('/profile/update', 'CustomerController@updateProfilePost')->name('update_profile_post_customer');
     Route::resource('/produk', 'ProdukController');
+    Route::get('/produk/{product}/status/{status}', 'ProdukController@aktifNonaktifCustomer')->name('produk.aktifNonaktifCustomer');
 });
 
 //Admin
@@ -52,9 +55,15 @@ Route::prefix('/admin')->middleware(['admin.auth'])->group(function () {
     Route::get('/', 'AdminController@index')->name('admin_index');
     Route::resource('/kategori', 'KategoriController');
     Route::get('/kategori/{kategori}/{status}', 'KategoriController@aktifNonatif')->name('kategori.aktifNonaktif');
-    Route::get('/produk/{produk}/{status}', 'ProdukController@aktifNonatif')->name('produk.aktifNonaktif');
+
+    Route::get('/produk/{product}/status/{status}', 'ProdukController@aktifNonaktifAdmin')->name('produk.aktifNonaktifAdmin');
+    Route::delete('/produk/{product}', 'ProdukController@destroyAdmin')->name('produk.destroyAdmin');
+    Route::get('/produk/detail/{product}', 'ProdukController@showAdmin')->name('produk.showAdmin');
+    Route::get('/produk/list', 'ProdukController@listProductAdmin')->name('admin.produk.list');
+
     Route::resource('/user', 'UserController');
     Route::resource('/admin', 'SuperAdminController')->middleware('admin.super.auth');
+
 
     Route::get('/profile/update', 'AdminController@updateProfile')->name('update_profile');
     Route::put('/profile/update', 'AdminController@updateProfilePost')->name('update_profile_post');

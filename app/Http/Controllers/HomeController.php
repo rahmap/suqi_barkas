@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Kategori;
-use App\Order;
-use App\OrderProduk;
 use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,8 +16,10 @@ class HomeController extends Controller
     public function __construct()
     {
         $data = Kategori::with(['produks' => function ($q){
-            $q->where('deleted_at', NULL);
-        }])->limit(6)->inRandomOrder()->get();
+                $q->where('deleted_at', NULL);
+            }])
+            ->where('is_active',1)
+            ->limit(6)->inRandomOrder()->get();
         View::share('kategoriConstruct', $data);
     }
 
@@ -27,14 +27,16 @@ class HomeController extends Controller
     {
         $data = [
             'title' => 'Welcome',
-            'produks' => Product::with('kategoris')->where('kategori_id','!=',NULL)
+            'produks' => Product::with('kategoris')
+                ->where('kategori_id','!=',NULL)
+                ->where('is_active',1)
                 ->where('deleted_at', NULL)->paginate($this->itemPerHalaman),
             'kategoris' => Kategori::with(['produks' => function ($q){
-                $q->where('deleted_at', NULL);
-            }])->get(),
-            'relates' => Product::with(['kategoris'])
+                $q->where('deleted_at', NULL)->where('is_active', 1);
+            }])->where('is_active',1)->get(),
+            'relates' => Product::with(['kategoris'])->where('is_active',1)
                 ->whereHas('kategoris', function ($q){
-                    $q->where('slug', 'paketan')->orWhere('slug', 'paket');
+                    $q->where('slug', 'paketan')->orWhere('slug', 'paket')->where('is_active', 1);
                 })
                 ->where('kategori_id','!=',NULL)
                 ->where('deleted_at', NULL)->limit(8)->inRandomOrder()->get()
@@ -44,11 +46,15 @@ class HomeController extends Controller
     }
 
     public function produk_page($slug){
-        $produk = Product::with('kategoris')->where('slug', $slug)->firstOrFail();
+        $produk = Product::with('kategoris')
+            ->where('is_active',1)
+            ->where('slug', $slug)->firstOrFail();
         $data = [
             'title' => 'Detail '.$produk['nama'],
             'produk' => $produk,
-            'relates' => Product::with('kategoris')->where('kategori_id','!=',NULL)
+            'relates' => Product::with('kategoris')
+                ->where('is_active',1)
+                ->where('kategori_id','!=',NULL)
                 ->where('id', '!=', $produk['id'])
                 ->where('deleted_at', NULL)->limit(8)->inRandomOrder()->get()
         ];
@@ -61,7 +67,9 @@ class HomeController extends Controller
     {
 //        dd($request->all());
         $kategori = $request->kategori;
-        $produk = Product::select(['produks.*','kategoris.nama as knama', 'kategoris.slug as kslug'])->where('produks.kategori_id', '!=', NULL)
+        $produk = Product::select(['produks.*','kategoris.nama as knama', 'kategoris.slug as kslug'])
+            ->where('produks.is_active',1)
+            ->where('produks.kategori_id', '!=', NULL)
             ->where('kategoris.slug','=',$kategori)
             ->join('kategoris','kategoris.id', '=', 'produks.kategori_id')
             ->where('produks.deleted_at', NULL)->paginate($this->itemPerHalaman);
@@ -70,8 +78,8 @@ class HomeController extends Controller
             'title' => $produk[0]['kategoris']['nama'],
             'produks' => $produk,
             'kategoris' => Kategori::with(['produks' => function ($q){
-                $q->where('deleted_at', NULL);
-            }])->get()
+                $q->where('deleted_at', NULL)->where('is_active',1);
+            }])->where('is_active',1)->get()
         ];
 //        dd($data);
 
@@ -81,7 +89,9 @@ class HomeController extends Controller
     public function search(Request $request)
     {
         $nama = $request->nama;
-        $produk = Product::select(['produks.*','kategoris.nama as knama', 'kategoris.slug as kslug'])->where('produks.kategori_id', '!=', NULL)
+        $produk = Product::select(['produks.*','kategoris.nama as knama', 'kategoris.slug as kslug'])
+            ->where('is_active',1)
+            ->where('produks.kategori_id', '!=', NULL)
             ->join('kategoris','kategoris.id', '=', 'produks.kategori_id')
             ->where('produks.nama','like', '%' . $nama . '%')
             ->where('produks.deleted_at', NULL)->paginate($this->itemPerHalaman);
@@ -90,7 +100,7 @@ class HomeController extends Controller
             'title' => $nama,
             'produks' => $produk,
             'kategoris' => Kategori::with(['produks' => function ($q){
-                $q->where('deleted_at', NULL);
+                $q->where('deleted_at', NULL)->where('is_active',1);
             }])->get()
         ];
 

@@ -51,7 +51,7 @@
             </div>
         </div>
         <!-- /toolbox -->
-        @if(!empty($relates))
+        @if($relates->isNotEmpty())
             <div class="container margin_60_15 mb-4">
                 <div class="main_title">
                     <h2>Featured</h2>
@@ -88,7 +88,6 @@
 
                 </div>
                 <div class="row justify-content-center">
-{{--                    <button class="btn btn-info float-right">Lihat Semua</button>--}}
                     <a href="{{ url('filter?kategori=paketan') }}"><strong>Lihat Selengkapnya</strong></a>
                 </div>
                 <!-- /products_carousel -->

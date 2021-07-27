@@ -151,9 +151,6 @@
                                         <ul>
                                             <?php if(auth()->guard('customer')->check()): ?>
                                             <li>
-                                                <a href="{{ route('pesanan_list_customer') }}"><i class="ti-package"></i>Pesanan Saya</a>
-                                            </li>
-                                            <li>
                                                 <a href="<?= route('auth_logout') ?>"><b><i class="ti-power-off"></i>Keluar</b></a>
                                             </li>
                                             <?php endif; ?>
