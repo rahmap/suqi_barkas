@@ -42,6 +42,7 @@
                                 <thead class="text-center">
                                 <tr>
                                     <th>ID</th>
+                                    <th>Email Penjual</th>
                                     <th>Nama</th>
                                     <th>Harga</th>
                                     <th>Diskon</th>
@@ -58,6 +59,7 @@
                                 @foreach($produks as $pro)
                                     <tr>
                                         <td>{{ $pro['id'] }}</td>
+                                        <td>{{ $pro['users']['email'] }}</td>
                                         <td>{{ $pro['nama'] }}</td>
                                         <td>{{ 'Rp '.formatRupiah($pro['harga']) }}</td>
                                         <td>{{ $pro['diskon'] }} %</td>

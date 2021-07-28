@@ -46,13 +46,13 @@ class HomeController extends Controller
     }
 
     public function produk_page($slug){
-        $produk = Product::with('kategoris')
+        $produk = Product::with(['kategoris','users'])
             ->where('is_active',1)
             ->where('slug', $slug)->firstOrFail();
         $data = [
             'title' => 'Detail '.$produk['nama'],
             'produk' => $produk,
-            'relates' => Product::with('kategoris')
+            'relates' => Product::with(['kategoris'])
                 ->where('is_active',1)
                 ->where('kategori_id','!=',NULL)
                 ->where('id', '!=', $produk['id'])
@@ -90,7 +90,7 @@ class HomeController extends Controller
     {
         $nama = $request->nama;
         $produk = Product::select(['produks.*','kategoris.nama as knama', 'kategoris.slug as kslug'])
-            ->where('is_active',1)
+            ->where('produks.is_active',1)
             ->where('produks.kategori_id', '!=', NULL)
             ->join('kategoris','kategoris.id', '=', 'produks.kategori_id')
             ->where('produks.nama','like', '%' . $nama . '%')
@@ -101,7 +101,7 @@ class HomeController extends Controller
             'produks' => $produk,
             'kategoris' => Kategori::with(['produks' => function ($q){
                 $q->where('deleted_at', NULL)->where('is_active',1);
-            }])->get()
+            }])->where('is_active',1)->get()
         ];
 
         return view('home.v_home_index_filter', $data);

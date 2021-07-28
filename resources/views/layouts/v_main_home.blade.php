@@ -128,7 +128,7 @@
                         <form action="<?= route('search') ?>" method="GET">
                             <div class="custom-search-input">
                                 <input type="text" value="<?= old('nama', (isset($_GET['nama']) AND !empty($_GET['nama']))?
-                                    $_GET['nama'] : '') ?>" placeholder="Cari Properti berdasarkan nama.." name="nama" required>
+                                    $_GET['nama'] : '') ?>" placeholder="Cari Barang Bekas berdasarkan nama.." name="nama" required>
                                 <button type="submit"><i class="header-icon_search_custom"></i></button>
                             </div>
                         </form>
@@ -172,7 +172,7 @@
                 <form action="<?= route('search') ?>" method="GET">
                     <input type="text" name="nama" value="<?= old('nama', (isset($_GET['nama']) AND !empty($_GET['nama']))?
                         $_GET['nama'] : '') ?>" class="form-control" required
-                           placeholder="Cari Properti berdasarkan nama..">
+                           placeholder="Cari Barang Bekas berdasarkan nama..">
                     <button type="submit" class="btn_1 full-width">Cari</button>
                 </form>
             </div>

@@ -39,7 +39,7 @@ class AuthController extends Controller
         $request->validate([
             'nama' => 'required|string|min:5|max:20',
             'email' => 'required|email|unique:users,email',
-            'phone' => 'required|digits_between:9,20|starts_with:62,08|unique:users,phone',
+            'phone' => 'required|digits_between:9,20|starts_with:62|unique:users,phone',
             'password' => 'required|min:6|max:30|confirmed'
         ]);
         $insert = [

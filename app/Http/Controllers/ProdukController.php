@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Kategori;
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -25,7 +26,7 @@ class ProdukController extends Controller
     {
         $data = [
             'title' => 'List Produk',
-            'produks' => Product::with('kategoris')->withTrashed()->get()
+            'produks' => Product::with(['kategoris','users'])->withTrashed()->get()
         ];
 
         return view('admin.produk.v_admin_produk_list', $data);
@@ -54,6 +55,7 @@ class ProdukController extends Controller
         $req['gambar'] = $request->gambar->hashName();;
         $req['slug'] = Str::slug($request->nama).'-'.Str::random(4);
         $req['gambar_tambahan'] = $request->gambar_tambahan->hashName();
+        $req['user_id'] = Auth::guard('customer')->user()->id;
         Product::create($req);
         return redirect()->route('produk.create')
             ->with('message',
@@ -161,6 +163,7 @@ class ProdukController extends Controller
     {
         $pro = Product::findOrFail($product);
         $pro->is_active = $status;
+        $pro->admin_id = Auth::guard('admin')->user()->id;
         $pro->save();
         return redirect()->back()
             ->with('message',
@@ -169,6 +172,10 @@ class ProdukController extends Controller
 
     public function destroyAdmin($produk)
     {
+        $update = Product::findOrFail($produk);
+        $update->admin_id = Auth::guard('admin')->user()->id;
+        $update->save();
+        
         $pro = Product::findOrFail($produk);
         $pro->delete();
         return redirect()->back()

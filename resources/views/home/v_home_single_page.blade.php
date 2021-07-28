@@ -43,24 +43,11 @@
                 </div>
                 <div class="col-md-6">
                     <!-- /page_header -->
-                    <form action="{{ route('add_to_cart', ['produk' => $produk['slug']]) }}" method="post">
-                    @csrf
                     <div class="prod_info">
                         <h1>{{ $produk['nama'] }}</h1>
-                        <p><small>Berat : {{ $produk['berat'] }} Gram</small></p>
-                        <p style="margin-top: -20px"><small>Stok : {!! ($produk['stok'] <= 0)? '<span class="text-danger">Stok Habis</span>' : $produk['stok'] !!}</small></p>
-                        <p style="margin-top: -20px"><small>Kategori : <a href="{{ url('/filter?kategori=').$produk['kategoris']['slug'] }}">{{ $produk['kategoris']['nama'] }}</a></small></p>
-                        @if($produk['stok'] > 0)
-                        <div class="prod_options">
-                            <div class="row">
-                                <label class="col-xl-5 col-lg-5  col-md-6 col-6"><strong>Quantity</strong></label>
-                                <div class="col-xl-4 col-lg-5 col-md-6 col-6">
-                                    <div class="numbers-row">
-                                        <input required type="number" min="1" max="{{ $produk['stok'] }}" value="1" id="quantity_1" class="qty2" name="qty">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <p><small>Kategori : <a href="{{ url('/filter?kategori=').$produk['kategoris']['slug'] }}">{{ $produk['kategoris']['nama'] }}</a></small></p>
+                        <p><small>Nama Penjual : {{ $produk['users']['nama'] }}</small></p>
+                        <p><small>Lokasi : {{ $produk['users']['provinsi'] }} - {{ $produk['users']['kabupaten'] }}</small></p>
                         <div class="row">
                             <div class="col-lg-5 col-md-6">
                                 @if($produk['diskon'] > 0)
@@ -71,16 +58,13 @@
                                 @endif
                             </div>
                             <div class="col-lg-4 col-md-6">
-                                <div class="btn_add_to_cart"><button type="submit" class="btn_1">Add to Cart</button></div>
+                                <a target="_blank"
+                                   href="https://wa.me/{{ $produk['users']['phone'] }}?text=Hallo *{{ $produk['users']['nama'] }}*, saya tertarik pada produk *{{ $produk['nama'] }}*">
+                                    <div class="btn_add_to_cart"><button type="submit" class="btn_1">Add to Cart</button></div>
+                                </a>
                             </div>
                         </div>
-                        @else
-                        <div class="row justify-content-center">
-                            <h3 class="text-danger">Stok Habis</h3>
-                        </div>
-                        @endif
                     </div>
-                    </form>
                     <!-- /prod_info -->
                 </div>
             </div>
@@ -111,8 +95,8 @@
                         </div>
                         <div id="collapse-A" class="collapse" role="tabpanel" aria-labelledby="heading-A">
                             <div class="card-body">
-                                <div class="row justify-content-between">
-                                    <div class="col-lg-6">
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-8">
                                         <h3>Keterangan @if($produk['kategoris']['slug'] == 'paketan' OR $produk['kategoris']['slug'] == 'paket') Paket @else Produk @endif {{ $produk['nama'] }}</h3>
                                         {!! $produk['keterangan'] !!}
                                     </div>

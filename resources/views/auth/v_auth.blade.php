@@ -106,7 +106,7 @@
                                             <input type="number" name="phone"
                                                    class="form-control @error('phone') is-invalid @enderror"
                                                    value="<?= old('phone'); ?>"
-                                                   placeholder="Nomor Telepon*" required minlength="9" maxlength="20">
+                                                   placeholder="Nomor Telepon* Ex : 6289xxxxxx" required minlength="9" maxlength="20">
                                             @error('phone')
                                             <div class="invalid-feedback">
                                                 {{ $message }}

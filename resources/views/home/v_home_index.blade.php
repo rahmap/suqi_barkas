@@ -83,9 +83,8 @@
                             </div>
                             <!-- /grid_item -->
                         </div>
-                @endforeach
-                <!-- /item -->
-
+                    @endforeach
+                    <!-- /item -->
                 </div>
                 <div class="row justify-content-center">
                     <a href="{{ url('filter?kategori=paketan') }}"><strong>Lihat Selengkapnya</strong></a>
