@@ -46,7 +46,13 @@
                     <div class="prod_info">
                         <h1>{{ $produk['nama'] }}</h1>
                         <p><small>Kategori : <a href="{{ url('/filter?kategori=').$produk['kategoris']['slug'] }}">{{ $produk['kategoris']['nama'] }}</a></small></p>
-                        <p><small>Nama Penjual : {{ $produk['users']['nama'] }}</small></p>
+                        <p>
+                            <small>Nama Penjual :
+                                <a href="{{ route('home.penjual',['user_name_slug' => $produk['users']['id'].'-'.str_replace(' ','-',strtolower($produk['users']['nama']))]) }}">
+                                    {{ $produk['users']['nama'] }}
+                                </a>
+                            </small>
+                        </p>
                         <p><small>Lokasi : {{ $produk['users']['provinsi'] }} - {{ $produk['users']['kabupaten'] }}</small></p>
                         <div class="row">
                             <div class="col-lg-5 col-md-6">
@@ -60,7 +66,7 @@
                             <div class="col-lg-4 col-md-6">
                                 <a target="_blank"
                                    href="https://wa.me/{{ $produk['users']['phone'] }}?text=Hallo *{{ $produk['users']['nama'] }}*, saya tertarik pada produk *{{ $produk['nama'] }}*">
-                                    <div class="btn_add_to_cart"><button type="submit" class="btn_1">Add to Cart</button></div>
+                                    <div class="btn_add_to_cart"><button type="submit" class="btn_1">Chat Sekarang</button></div>
                                 </a>
                             </div>
                         </div>

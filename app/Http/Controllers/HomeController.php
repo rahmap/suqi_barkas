@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Kategori;
 use App\Product;
+use http\Client\Curl\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
@@ -105,6 +106,30 @@ class HomeController extends Controller
         ];
 
         return view('home.v_home_index_filter', $data);
+    }
+    
+    public function penjualPage($slug)
+    {
+        $id = explode('-',$slug)[0];
+        $user = \App\User::with('products.kategoris')->findOrFail($id);
+        $produks = \App\Product::with('kategoris')
+            ->where('user_id', $id);
+        $data = [
+            'pageNama' => 'penjual',
+            'user' => $user,
+            'produks' => $produks->paginate($this->itemPerHalaman),
+            'title' => 'Penjual '.$user['nama'],
+            'kategoris' => Kategori::with(['produks' => function ($q) use($id){
+                $q->where('deleted_at', NULL)
+                ->where('user_id', $id)
+                ->where('is_active',1);
+            }])->where('is_active',1)->get()
+        ];
+        
+//        dd($data);
+        
+        
+        return view('home.v_home_penjual', $data);
     }
 
     public function tentang()

@@ -1,3 +1,4 @@
+@if(!isset($pageNama))
 <aside class="col-lg-3" id="sidebar_fixed">
     <div class="filter_col">
         <div class="inner_bt"><a href="#" class="open_filters"><i class="ti-close"></i></a></div>
@@ -26,3 +27,4 @@
         </form>
     </div>
 </aside>
+@endif

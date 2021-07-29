@@ -107,7 +107,7 @@
             </div>
             <!-- end row -->
             <div class="row">
-                <div class="col-5">
+                <div class="col-4">
                     <div class="card">
 
                         <div class="card-body">
@@ -117,13 +117,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-7">
+                <div class="col-8">
                     <div class="card">
                         <div class="card-body">
 
                             <table id="datatable1" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead class="text-center">
                                 <tr>
+                                    <th>Penjual</th>
+                                    <th>Email - Phone</th>
+                                    <th>Lokasi</th>
                                     <th>Dibuat</th>
                                     <th>Diupdate</th>
                                     <th>Gambar</th>
@@ -134,6 +137,9 @@
 
                                 <tbody class="text-center">
                                 <tr>
+                                    <td>{{ $produk['users']['nama'] }}</td>
+                                    <td>{{ $produk['users']['email'] .'-'. $produk['users']['phone'] }}</td>
+                                    <td>{{ $produk['users']['provinsi'] .'-'. $produk['users']['kabupaten'] }}</td>
                                     <td>{{ $produk['created_at'] }}</td>
                                     <td>{{ $produk['updated_at'] }}</td>
                                     <td><a target="_blank" href="{{ asset('storage/product/'.$produk->gambar) }}">Lihat</a></td>

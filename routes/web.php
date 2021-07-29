@@ -22,6 +22,8 @@ Route::get('/syarat-dan-ketentuan', 'HomeController@faq')->name('faq');
 Route::get('/get-kabupaten/{provinsi}', 'AuthController@getKabupatenByIdProv')->name('getKabupatenByIdProv');
 Route::get('/produk/{produk}', 'HomeController@produk_page')->name('produk_page');
 
+Route::get('/penjual/{user_name_slug}', 'HomeController@penjualPage')->name('home.penjual');
+
 Route::middleware(['guest:customer'])->group(function () {
     Route::get('/auth', 'AuthController@index')->name('auth');
     Route::post('/auth/register', 'AuthController@register')->name('auth_register');

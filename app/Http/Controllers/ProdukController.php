@@ -52,7 +52,8 @@ class ProdukController extends Controller
         $req = \request()->all();
         $request->gambar->store('product', 'public');
         $request->gambar_tambahan->store('product', 'public');
-        $req['gambar'] = $request->gambar->hashName();;
+        $req['gambar'] = $request->gambar->hashName();
+        $req['nama'] = ucwords($req['nama']);
         $req['slug'] = Str::slug($request->nama).'-'.Str::random(4);
         $req['gambar_tambahan'] = $request->gambar_tambahan->hashName();
         $req['user_id'] = Auth::guard('customer')->user()->id;
@@ -78,7 +79,7 @@ class ProdukController extends Controller
     {
         $data = [
             'title' => 'Detail Product',
-            'produk' => Product::with('kategoris')->withTrashed()->findOrFail($produk)
+            'produk' => Product::with('kategoris','users')->withTrashed()->findOrFail($produk)
         ];
 
         return view('admin.produk.v_admin_produk_detail', $data);
