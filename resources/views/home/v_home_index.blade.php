@@ -114,6 +114,20 @@
                                             </a>
                                         </figure>
                                         <small><a href="{{ url('/filter?kategori=').$pro['kategoris']['slug'] }}">{{ $pro['kategoris']['nama'] }}</a></small>
+                                            <br>
+                                        <small>
+                                            <span>
+                                                <a href="{{ url('/filter?provinsi='.str_replace(' ', '-',strtolower($pro['users']['provinsi']))) }}">
+                                                    {{ $pro['users']['provinsi'] }}
+                                                </a>
+                                            </span>
+                                            -
+                                            <span>
+                                                <a href="{{ url('/filter?kabupaten='.str_replace(' ', '-',strtolower($pro['users']['kabupaten']))) }}">
+                                                    {{ $pro['users']['kabupaten'] }}
+                                                </a>
+                                            </span>
+                                        </small>
                                         <br>
                                         <a href="{{ url('produk/'.$pro['slug']) }}">
                                             <h3>{{ $pro['nama'] }}</h3>

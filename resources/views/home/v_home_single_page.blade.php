@@ -53,7 +53,17 @@
                                 </a>
                             </small>
                         </p>
-                        <p><small>Lokasi : {{ $produk['users']['provinsi'] }} - {{ $produk['users']['kabupaten'] }}</small></p>
+                        <p>
+                            <small>Lokasi :
+                                <a href="{{ url('/filter?provinsi='.str_replace(' ', '-',strtolower($produk['users']['provinsi']))) }}">
+                                    {{ $produk['users']['provinsi'] }}
+                                </a>
+                                -
+                                <a href="{{ url('/filter?kabupaten='.str_replace(' ', '-',strtolower($produk['users']['kabupaten']))) }}">
+                                    {{ $produk['users']['kabupaten'] }}
+                                </a>
+                            </small>
+                        </p>
                         <div class="row">
                             <div class="col-lg-5 col-md-6">
                                 @if($produk['diskon'] > 0)

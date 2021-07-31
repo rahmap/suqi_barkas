@@ -57,46 +57,60 @@
             <div class="row">
                 @include('layouts.v_sidebar_home')
                 <!-- /col -->
-                <div class="col-lg-9">
-                    <div class="row small-gutters">
-                        @if(!$produks->isEmpty())
-                            @foreach($produks as $pro)
-                                <div class="col-6 col-md-4">
-                                    <div class="grid_item">
-                                        @if($pro['diskon'] > 0)<span class="ribbon off">-{{ $pro['diskon'] }}%</span> @endif
-                                        <figure>
+                    <div class="col-lg-9">
+                        <div class="row small-gutters">
+                            @if(!$produks->isEmpty())
+                                @foreach($produks as $pro)
+                                    <div class="col-6 col-md-4">
+                                        <div class="grid_item">
+                                            @if($pro['diskon'] > 0)<span class="ribbon off">-{{ $pro['diskon'] }}%</span> @endif
+                                            <figure>
+                                                <a href="{{ url('produk/'.$pro['slug']) }}">
+                                                    <img class="img-fluid lazy" style="height: 163px" src="{{ asset('storage/product/'.$pro['gambar']) }}"
+                                                         data-src="{{ asset('storage/product/'.$pro['gambar']) }}" alt="Gambar {{ $pro['nama'] }}">
+                                                </a>
+                                            </figure>
+                                            <small><a href="{{ url('/filter?kategori=').$pro['kategoris']['slug'] }}">{{ $pro['kategoris']['nama'] }}</a></small>
+                                            <br>
+                                            <small>
+                                                <span>
+                                                <a href="{{ url('/filter?provinsi='.str_replace(' ', '-',strtolower($pro['users']['provinsi']))) }}">
+                                                    {{ $pro['users']['provinsi'] }}
+                                                </a>
+                                                </span>
+                                                    -
+                                                <span>
+                                                    <a href="{{ url('/filter?kabupaten='.str_replace(' ', '-',strtolower($pro['users']['kabupaten']))) }}">
+                                                        {{ $pro['users']['kabupaten'] }}
+                                                    </a>
+                                                </span>
+                                            </small>
+                                            <br>
                                             <a href="{{ url('produk/'.$pro['slug']) }}">
-                                                <img class="img-fluid lazy" style="height: 163px" src="{{ asset('storage/product/'.$pro['gambar']) }}"
-                                                     data-src="{{ asset('storage/product/'.$pro['gambar']) }}" alt="Gambar {{ $pro['nama'] }}">
+                                                <h3>{{ $pro['nama'] }}</h3>
                                             </a>
-                                        </figure>
-                                        <small><a href="">{{ $pro['knama'] }}</a></small>
-                                        <br>
-                                        <a href="{{ url('produk/'.$pro['slug']) }}">
-                                            <h3>{{ $pro['nama'] }}</h3>
-                                        </a>
-                                        <div class="price_box">
-                                            <span class="new_price">Rp {{ formatRupiah($pro['harga'] = $pro['harga'] - ($pro['harga'] * $pro['diskon'] / 100)) }}</span>
+                                            <div class="price_box">
+                                                <span class="new_price">Rp {{ formatRupiah($pro['harga'] = $pro['harga'] - ($pro['harga'] * $pro['diskon'] / 100)) }}</span>
+                                            </div>
+                                            <ul>
+                            
+                                            </ul>
                                         </div>
-                                        <ul>
-
-                                        </ul>
+                                        <!-- /grid_item -->
                                     </div>
-                                    <!-- /grid_item -->
+                                @endforeach
+                            <!-- /col -->
+                            @else
+                                <div class="col-12 col-md-12">
+                                    <div class="text-center">
+                                        <h3>Tidak ada data Produk</h3>
+                                    </div>
                                 </div>
-                            @endforeach
-                        <!-- /col -->
-                        @else
-                            <div class="col-12 col-md-12">
-                                <div class="text-center">
-                                    <h3>Tidak ada data Produk</h3>
-                                </div>
-                            </div>
-                        @endif
-
+                            @endif
+        
+                        </div>
+                        @if(!empty($produks)) {!! $produks->links() !!} @endif
                     </div>
-                   @if(!empty($produks)) {!! $produks->links() !!} @endif
-                </div>
                 <!-- /col -->
             </div>
             <!-- /row -->

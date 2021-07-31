@@ -26,11 +26,12 @@
                     <div class="breadcrumbs">
 
                     </div>
-                    <h1>{{ $title }} - {{ getenv('APP_NAME') }}</h1>
-                    <h6>Menampilkan Barang Bekas dari Penjual <strong>{{ $user['nama'] }}</strong></h6>
+                    <h1>{{ $title }}</h1>
+                    <h2 style="color: white; margin-bottom: 15px;">{{ $user['provinsi'] }} - {{ $user['kabupaten'] }}</h2>
+                    <h6 style="color: white">Menampilkan Barang Bekas dari Penjual <strong>{{ $user['nama'] }}</strong></h6>
                 </div>
             </div>
-            <img src="home/img/bg_cat_shoes.jpg" class="img-fluid" alt="">
+            <img src="{{ asset('home/img/bg_cat_shoes.jpg') }}" class="img-fluid" alt="">
         </div>
         <!-- /top_banner -->
         <div id="stick_here"></div>

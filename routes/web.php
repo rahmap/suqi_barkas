@@ -44,8 +44,8 @@ Route::get('/search', 'HomeController@search')->name('search');
 
 
 //Customer
-Route::get('/customer', 'CustomerController@index')->name('customer_index');
 Route::prefix('/customer')->middleware(['user.auth'])->group(function () {
+Route::get('/customer', 'CustomerController@index')->name('customer_index');
     Route::get('/profile/update', 'CustomerController@updateProfile')->name('update_profile_customer');
     Route::put('/profile/update', 'CustomerController@updateProfilePost')->name('update_profile_post_customer');
     Route::resource('/produk', 'ProdukController');
