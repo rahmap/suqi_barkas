@@ -16,7 +16,9 @@ class ProdukController extends Controller
     {
         $data = [
             'title' => 'List Produk',
-            'produks' => Product::with('kategoris')->get()
+            'produks' => Product::with('kategoris')
+                ->where('user_id', Auth::guard('customer')->user()->id)
+                ->get()
         ];
 //        dd($data);
         return view('customer.produk.v_customer_produk_list', $data);
@@ -64,12 +66,11 @@ class ProdukController extends Controller
     }
 
 
-    public function show(Product $produk)
+    public function show(Request $request)
     {
-//        dd(File::get(public_path('storage/product/'.$produk->gambar)));
         $data = [
             'title' => 'Detail Product',
-            'produk' => $produk
+            'produk' => Product::find($request->produk)
         ];
 
         return view('customer.produk.v_customer_produk_detail', $data);

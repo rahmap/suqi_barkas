@@ -31,7 +31,9 @@ class HomeController extends Controller
             'produks' => Product::with(['kategoris','users'])
                 ->where('kategori_id','!=',NULL)
                 ->where('is_active',1)
-                ->where('deleted_at', NULL)->paginate($this->itemPerHalaman),
+                ->where('deleted_at', NULL)
+                ->orderBy('created_at', 'desc')
+                ->paginate($this->itemPerHalaman),
             'kategoris' => Kategori::with(['produks' => function ($q){
                 $q->where('deleted_at', NULL)->where('is_active', 1);
             }])->where('is_active',1)->get(),
@@ -40,7 +42,7 @@ class HomeController extends Controller
                     $q->where('slug', 'paketan')->orWhere('slug', 'paket')->where('is_active', 1);
                 })
                 ->where('kategori_id','!=',NULL)
-                ->where('deleted_at', NULL)->limit(8)->inRandomOrder()->get(),
+                ->where('deleted_at', NULL)->limit(4)->inRandomOrder()->get(),
             'locationsProv' => \App\User::select('provinsi')->whereHas('products')->distinct()->get(),
             'locationsKab' => \App\User::select('kabupaten')->whereHas('products')->distinct()->get()
         ];
@@ -82,7 +84,9 @@ class HomeController extends Controller
         })
         ->where('kategori_id','!=',NULL)
         ->where('is_active',1)
-        ->where('deleted_at', NULL)->paginate($this->itemPerHalaman);
+        ->where('deleted_at', NULL)
+        ->orderBy('created_at', 'desc')
+        ->paginate($this->itemPerHalaman);
 //        dd($produk->get());
         $data = [
             'title' => $produk[0]['kategoris']['nama'],

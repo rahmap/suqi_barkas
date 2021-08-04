@@ -75,7 +75,7 @@
                             </div>
                             <div class="col-lg-4 col-md-6">
                                 <a target="_blank"
-                                   href="https://wa.me/{{ $produk['users']['phone'] }}?text=Hallo *{{ $produk['users']['nama'] }}*, saya tertarik pada produk *{{ $produk['nama'] }}*">
+                                   href="https://wa.me/{{ $produk['users']['phone'] }}?text=Hallo *{{ $produk['users']['nama'] }}*, saya tertarik pada produk *{{ $produk['nama'] }}* dengan harga *Rp {{ formatRupiah($produk['harga'] - ($produk['harga'] * $produk['diskon'] / 100)) }}*">
                                     <div class="btn_add_to_cart"><button type="submit" class="btn_1">Chat Sekarang</button></div>
                                 </a>
                             </div>
