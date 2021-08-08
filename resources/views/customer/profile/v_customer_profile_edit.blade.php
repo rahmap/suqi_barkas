@@ -39,7 +39,7 @@
                                     <div class="col-md-12 mb-12">
                                         <label for="namaAdmin">Nama</label>
                                         <input type="text" id="namaAdmin" class="form-control @error('nama') is-invalid @enderror"
-                                               name="nama" minlength="3" maxlength="20" placeholder="Nama anda.." value="{{ old('nama', $admin['nama']) }}" required>
+                                               name="nama" minlength="3" maxlength="20" placeholder="Nama anda.." value="{{ old('nama', $user['nama']) }}" required>
                                             @error('nama')
                                             <div class="invalid-feedback">
                                               {{ $message }}
@@ -49,7 +49,7 @@
                                     <div class="col-md-12 mb-12 mt-3">
                                         <label for="emailAdmin">Email</label>
                                         <input type="email" id="emailAdmin" class="form-control @error('email') is-invalid @enderror"
-                                               name="email" minlength="3" maxlength="20" placeholder="Email anda.." value="{{ old('email', $admin['email']) }}" required>
+                                               name="email" minlength="3" maxlength="20" placeholder="Email anda.." value="{{ old('email', $user['email']) }}" required>
                                         @error('email')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -59,7 +59,7 @@
                                     <div class="col-md-12 mb-12 mt-3">
                                         <label for="nomorAdmin">Nomor HP</label>
                                         <input type="number" id="nomorAdmin" class="form-control @error('phone') is-invalid @enderror"
-                                               name="phone" minlength="3" maxlength="20" placeholder="Nomor HP anda.." value="{{ old('phone', $admin['phone']) }}" required>
+                                               name="phone" minlength="3" maxlength="20" placeholder="Nomor HP anda.." value="{{ old('phone', $user['phone']) }}" required>
                                         @error('phone')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -89,6 +89,56 @@
                                         @enderror
                                     </div>
                                 </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-6">
+                                        <label for="namaAdmin">Provinsi</label>
+                                        <div class="form-group">
+                                            <select name="provinsi"
+                                                    class="form-control @error('provinsi') is-invalid @enderror"
+                                                    required id="provinsi">
+                                                @foreach($provinsis as $prov)
+                                                    <option value="{{ $prov['province_id'].'_'.$prov['province'] }}"
+                                                            {{ old('location', $user['provinsi'] == $prov['province'] ? 'selected' : '') }}>
+                                                        {{ $prov['province'] }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            @error('provinsi')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="namaAdmin">Kabupaten</label>
+                                        <div class="form-group">
+                                            <select disabled name="kabupaten"
+                                                    class="form-control @error('kabupaten') is-invalid @enderror"
+                                                    required id="kabupaten">
+                                            </select>
+                                            @error('kabupaten')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 mb-12">
+                                        <label for="namaAdmin">Alamat Lengkap</label>
+                                        <textarea type="text" id="namaAdmin" class="form-control @error('location') is-invalid @enderror"
+                                                  name="location"
+                                                  minlength="10" maxlength="150"
+                                                  placeholder="Dusun RT/RW/No Rumah, Kelurahan, Kecamatan" required>{{ old('location', $user['location'] ?? '') }}</textarea>
+                                        @error('location')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+                                </div>
                                 <div class="container mt-4">
                                     <div class="row">
                                         <div class="col text-center">
@@ -111,5 +161,58 @@
 @endsection
 
 @section('outJS')
+    <script>
+      $(document).ready(function (){
+        let provinsi = $('#provinsi')
+        let kabupaten = $('#kabupaten')
+        let currentKabupaten = '{{ $user['kabupaten'] }}'
+        provinsi.change(function (){
+          resetKabupaten()
+          kabupaten.prop('disabled', true)
+          getKabupaten()
+          $(`#provinsi option[value='']`).remove();
+        });
 
+        function getKabupaten()
+        {
+          let arrVal = provinsi.val().split('_')
+          console.log(arrVal)
+          $.ajax({
+            url : `{{ url('/get-kabupaten/') }}/${arrVal[0]}`,
+            type: 'GET',
+            success: function(response){
+              response.results.map(r => {
+                if(r.city_name === currentKabupaten){
+                  kabupaten
+                    .append(`<option value="${r.city_id}_${r.city_name}" selected>${r.city_name}</option>`);
+                } else {
+                  kabupaten
+                    .append(`<option value="${r.city_id}_${r.city_name}">${r.city_name}</option>`);
+                }
+              })
+            },
+            error: function(){
+              Swal.fire({
+                title : 'Gagal mengambil data Kabupaten!'
+              })
+            },
+            complete: function(){
+              kabupaten.prop('disabled', false)
+              // kabupaten.val(kabupaten.find('option:first').val());
+              console.log(kabupaten.val())
+            }
+          })
+        }
+
+        getKabupaten()
+
+        function resetKabupaten()
+        {
+          kabupaten
+            .find('option')
+            .remove()
+            .end()
+        }
+      })
+    </script>
 @endsection

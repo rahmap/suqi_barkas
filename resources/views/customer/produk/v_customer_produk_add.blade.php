@@ -103,11 +103,22 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-4 mb-4">
+                                    <div class="col-md-8 mb-4">
                                         <label for="keterangan">Keterangan Produk</label>
                                         <textarea type="text" id="keterangan" class="form-control @error('keterangan') is-invalid @enderror"
                                                   name="keterangan" minlength="10" maxlength="200" placeholder="Meja ini terbuat dari bahan berkualitas tinggi dan.." required>{{ old('keterangan') }}</textarea>
                                         @error('keterangan')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-4 mb-4">
+                                        <label for="keterangan">Lokasi</label>
+                                        <textarea type="text" id="produk_location" class="form-control @error('produk_location') is-invalid @enderror"
+                                                  name="produk_location" minlength="10"
+                                                  maxlength="150" placeholder="Dusun RT/RW/No Rumah, Kelurahan, Kecamatan" required>{{ old('produk_location', $user['location']) }}</textarea>
+                                        @error('produk_location')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>

@@ -40,7 +40,10 @@ class AuthController extends Controller
             'nama' => 'required|string|min:5|max:20',
             'email' => 'required|email|unique:users,email',
             'phone' => 'required|digits_between:9,20|starts_with:62|unique:users,phone',
-            'password' => 'required|min:6|max:30|confirmed'
+            'password' => 'required|min:6|max:30|confirmed',
+            'location' => 'required|min:10|max:150|string',
+            'provinsi' => 'required',
+            'kabupaten' => 'required'
         ]);
         $insert = [
             'nama' => ucwords(strtolower($request->nama)),
@@ -49,7 +52,8 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
             'provinsi' => explode('_',$request->provinsi)[1],
             'kabupaten' => explode('_',$request->kabupaten)[1],
-            'is_active' => 1
+            'is_active' => 1,
+            'location' => ucwords($request->location)
         ];
 
 //        dd($insert);

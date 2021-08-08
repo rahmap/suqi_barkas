@@ -49,6 +49,7 @@
                                     <th>Kategori</th>
                                     <th>Status</th>
                                     <th>Soft Delete</th>
+                                    <th>Ditambahkan Pada</th>
                                     <th>Aksi</th>
                                 </tr>
                                 </thead>
@@ -74,6 +75,7 @@
                                             @endif
                                         </td>
                                         <td>{!! !empty($pro['deleted_at'])? '<span class="badge badge-soft-danger">Dihapus</span>' : '<span class="badge badge-soft-secondary">Tidak</span>' !!}</td>
+                                        <td>{{ date($pro['created_at']) }}</td>
                                         <td>
                                             @if(empty($pro['deleted_at']))
                                             <div class="btn-group mt-1 mr-1 dropright" style="z-index: 999999;">

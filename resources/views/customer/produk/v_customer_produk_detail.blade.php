@@ -107,6 +107,7 @@
                         <div class="card-body">
                         <h4 class="header-title">Keterangan</h4>
                             <hr>
+                            <p><b>Lokasi :</b> {{ $produk['produk_location'] }}</p>
                             {!! $produk['keterangan'] !!}
                         </div>
                     </div>

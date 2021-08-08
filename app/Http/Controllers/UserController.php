@@ -51,7 +51,7 @@ class UserController extends Controller
         $request->validate([
             'nama' => 'required|string|min:5|max:20',
             'email' => 'required|email|unique:users,email,'.$user->id,
-            'phone' => 'required|digits_between:9,20|starts_with:62,08|unique:users,phone,'.$user->id,
+            'phone' => 'required|digits_between:9,20|starts_with:62|unique:users,phone,'.$user->id,
             'password' => 'nullable|min:6|max:30|confirmed'
         ]);
         if(isset($request->password) AND !empty($request->password)){

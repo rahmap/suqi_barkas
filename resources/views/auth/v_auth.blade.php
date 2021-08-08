@@ -80,7 +80,7 @@
                             <div class="form-group">
                                 <input type="text" class="form-control @error('nama') is-invalid @enderror"
                                        name="nama" value="<?= old('nama'); ?>"
-                                       placeholder="Nama*" required minlength="5">
+                                       placeholder="*Nama" required minlength="5">
                                 @error('nama')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -93,7 +93,7 @@
                                         <div class="form-group">
                                             <input type="email" class="form-control @error('email') is-invalid @enderror"
                                                    name="email" value="<?= old('email'); ?>"
-                                                   placeholder="Email*" required>
+                                                   placeholder="*Email" required>
                                             @error('email')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -106,7 +106,7 @@
                                             <input type="number" name="phone"
                                                    class="form-control @error('phone') is-invalid @enderror"
                                                    value="<?= old('phone'); ?>"
-                                                   placeholder="Nomor Telepon* Ex : 6289xxxxxx" required minlength="9" maxlength="20">
+                                                   placeholder="*Nomor Telepon Ex : 6289xxxxxx" required minlength="9" maxlength="20">
                                             @error('phone')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -124,7 +124,7 @@
                                         <div class="form-group">
                                             <input type="password" name="password"
                                                    class="form-control @error('password') is-invalid @enderror"
-                                                   placeholder="Password*" required minlength="6">
+                                                   placeholder="*Password" required minlength="6">
                                             @error('password')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -136,7 +136,7 @@
                                         <div class="form-group">
                                             <input type="password" name="password_confirmation"
                                                    class="form-control @error('password_confirmation') is-invalid @enderror"
-                                                   placeholder="Password Konfirmasi*" required minlength="6">
+                                                   placeholder="*Password Konfirmasi" required minlength="6">
                                             @error('password_confirmation')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -172,7 +172,7 @@
                                             <select disabled name="kabupaten"
                                                     class="form-control @error('kabupaten') is-invalid @enderror"
                                                     required id="kabupaten">
-                                                <option value=""></option>
+                                                <option value="" selected></option>
                                             </select>
                                             @error('kabupaten')
                                             <div class="invalid-feedback">
@@ -185,6 +185,17 @@
                                 <!-- /row -->
                             </div>
                             <!-- /private -->
+                            <div class="form-group">
+                                <textarea type="text" class="form-control @error('location') is-invalid @enderror"
+                                    name="location"
+                                    placeholder="*Dusun RT/RW/No Rumah, Kelurahan, Kecamatan"
+                                          required minlength="10" maxlength="150"><?= old('location'); ?></textarea>
+                                @error('location')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
 
                             <hr>
                             <div class="text-center"><input type="submit" value="Buat Akun" class="btn_1 full-width"></div>

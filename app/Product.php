@@ -20,6 +20,7 @@ class Product extends Model
         'diskon',
         'gambar',
         'gambar_tambahan',
+        'produk_location',
         'harga',
         'kategori_id',
         'keterangan',

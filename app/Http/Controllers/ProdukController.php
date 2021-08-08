@@ -38,6 +38,7 @@ class ProdukController extends Controller
     {
         $data = [
             'title' => 'Tambahkan Product',
+            'user' => Auth::guard('customer')->user(),
             'kategoris' => Kategori::where('is_active', 1)->get()
         ];
 

@@ -50,6 +50,7 @@
                                     <th>Diskon</th>
                                     <th>Kategori</th>
                                     <th>Status</th>
+                                    <th>Ditambahkan Pada</th>
                                     <th>Aksi</th>
                                 </tr>
                                 </thead>
@@ -73,6 +74,7 @@
                                                 <span class="badge badge-warning">Menunggu Persetujuan</span>
                                             @endif
                                         </td>
+                                        <td>{{ date($pro['created_at']) }}</td>
                                         <td>
                                             <div class="btn-group mt-1 mr-1 dropright" style="z-index: 999999;">
                                                 <button type="button" class="btn btn-secondary waves-effect waves-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -62,6 +62,9 @@
                                 <a href="{{ url('/filter?kabupaten='.str_replace(' ', '-',strtolower($produk['users']['kabupaten']))) }}">
                                     {{ $produk['users']['kabupaten'] }}
                                 </a>
+                                @if(!empty($produk['produk_location']))
+                                    - <b>{{ $produk['produk_location'] ?? '' }}</b>
+                                @endif
                             </small>
                         </p>
                         <div class="row">
