@@ -89,7 +89,7 @@ class HomeController extends Controller
         ->paginate($this->itemPerHalaman);
 //        dd($produk->get());
         $data = [
-            'title' => $produk[0]['kategoris']['nama'],
+            'title' => $produk[0]['kategoris']['nama'] ?? 'Tidak Ada Produk',
             'produks' => $produk,
             'kategoris' => Kategori::with(['produks' => function ($q){
                 $q->where('deleted_at', NULL)->where('is_active',1);
