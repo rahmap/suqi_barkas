@@ -69,8 +69,6 @@
                                 <li class="submenu">
                                     <a href="javascript:void(0);" class="show-submenu">Extra Pages</a>
                                     <ul>
-                                        <li><a href="{{ route('about') }}">Tentang</a></li>
-                                        <li><a href="{{ route('contact') }}">Kontak</a></li>
                                         <li><a href="{{ route('faq') }}">Syarat & Ketentuan</a></li>
                                     </ul>
                                 </li>
@@ -200,8 +198,6 @@
                             @else
                             <li><a href="{{ route('auth') }}">Login / Registrasi</a></li>
                             @endif
-                            <li><a href="{{ route('about') }}">Tentang</a></li>
-                            <li><a href="{{ route('contact') }}">Kontak</a></li>
                             <li><a href="{{ route('faq') }}">Syarat & Ketentuan</a></li>
                         </ul>
                     </div>
@@ -220,9 +216,9 @@
                     <h3 data-target="#collapse_3">Kontak</h3>
                     <div class="collapse dont-collapse-sm contacts" id="collapse_3">
                         <ul>
-                            <li><i class="ti-home"></i>97845 Baker st. 567<br>Los Angeles - US</li>
-                            <li><i class="ti-headphone-alt"></i>+94 423-23-221</li>
-                            <li><i class="ti-email"></i><a href="#0">info@allaia.com</a></li>
+{{--                            <li><i class="ti-home"></i>97845 Baker st. 567<br>Los Angeles - US</li>--}}
+                            <li><i class="ti-headphone-alt"></i>+62 8213-777-1800</li>
+                            <li><i class="ti-email"></i><a href="#0">barubekaskudotcom@gmail.com</a></li>
                         </ul>
                     </div>
                 </div>
